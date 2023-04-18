@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBreed } from "./fetchBreed";
 import { BreedImages } from "./BreedImages";
 import { Hero } from "./Hero";
-import { Modal } from "./Modal";
+import { FavoriteBreedsContext } from "./FavoriteBreedsContext";
 
 export const Details = () => {
     const { id } = useParams();
     const results = useQuery(["breeds", id], fetchBreed);
 
     const [heroUrl, setHeroUrl] = useState("");
-    const [showModal, setShowModal] = useState(false);
+
+    const [
+        favoriteBreeds,
+        addFavoriteBreed,
+        removeFavoriteBreed,
+        isBreedFavorite,
+    ] = useContext(FavoriteBreedsContext);
 
     const breed = results.data;
+    // console.log(breed);
+    // console.log(favoriteBreeds);
 
     const handleData = (url) => {
         setHeroUrl(url);
@@ -36,18 +44,25 @@ export const Details = () => {
                     <Hero heroUrl={heroUrl} />
                     <BreedImages onData={handleData} />
                 </div>
-                <div onClick={(e) => setShowModal(true)}>show modal</div>
-                {showModal ? (
-                    <Modal
-                        children={
-                            <div className="fixed flex justify-center items-center w-[100vw] h-[100vh] left-0 top-0 text-white bg-black bg-opacity-50 z-100">
-                                <div onClick={(e) => setShowModal(false)}>
-                                    modal
-                                </div>
-                            </div>
+                <div
+                    className="cursor-pointer text-3xl text-orange-600 opacity-70 hover:opacity-100"
+                    onClick={(e) => {
+                        const myBreed = {
+                            id: breed.id,
+                            imageSrc: heroUrl ?? "",
+                        };
+
+                        if (isBreedFavorite(breed.id)) {
+                            removeFavoriteBreed(myBreed);
+                        } else {
+                            addFavoriteBreed(myBreed);
                         }
-                    />
-                ) : null}
+                    }}
+                >
+                    {isBreedFavorite(breed.id)
+                        ? "unlike this breed"
+                        : "like this breed"}
+                </div>
             </div>
         );
     }
