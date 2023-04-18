@@ -1,14 +1,15 @@
 import { useBreedList } from "./useBreedList";
+import { useQuery } from "@tanstack/react-query";
 import { Breed } from "./Breed";
 
 export const BreedList = () => {
-    const [breeds, status] = useBreedList();
+    const result = useQuery(["breeds"], useBreedList);
 
     const Render = () => {
-        if (status !== "pending") {
+        if (!result.isLoading) {
             return (
                 <div className="space-y-2 mt-4">
-                    {breeds?.map((breed) => {
+                    {result.data?.map((breed) => {
                         return (
                             <Breed
                                 key={breed.id}

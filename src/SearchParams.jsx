@@ -4,8 +4,10 @@ import { BreedList } from "./BreedList";
 const IMAGE_TYPES = ["breeds", "images", "categories"];
 
 export const SearchParams = () => {
-    const [breedName, setBreedName] = useState("");
-    const [imageType, setImageType] = useState("breeds");
+    const [requestParams, setRequestParams] = useState({
+        breedName: "",
+        imageType: "breeds",
+    });
 
     const RenderContent = ({ imageType }) => {
         if (imageType === "breeds") {
@@ -19,6 +21,11 @@ export const SearchParams = () => {
                 className="space-y-4"
                 onSubmit={(e) => {
                     e.preventDefault();
+                    const formData = new FormData(e.target);
+                    setRequestParams({
+                        breedName: formData.get("breedName"),
+                        imageType: formData.get("imageType"),
+                    });
                 }}
             >
                 <div className="space-y-2">
@@ -28,9 +35,8 @@ export const SearchParams = () => {
                     <input
                         className="block border-2 border-indigo-400 py-1 px-2"
                         id="name"
+                        name="breedName"
                         type="text"
-                        onChange={(e) => setBreedName(e.target.value)}
-                        value={breedName}
                         placeholder="Breed name"
                     />
                 </div>
@@ -41,8 +47,7 @@ export const SearchParams = () => {
                     <select
                         className="block border-2 w-full border-indigo-400 py-1 px-2"
                         id="char"
-                        onChange={(e) => setImageType(e.target.value)}
-                        value={imageType}
+                        name="imageType"
                         placeholder="Characteristic"
                     >
                         {IMAGE_TYPES.map((char) => {
@@ -57,7 +62,7 @@ export const SearchParams = () => {
                     Submit
                 </button>
             </form>
-            <RenderContent imageType={imageType} />
+            <RenderContent imageType={requestParams.imageType} />
         </div>
     );
 };
