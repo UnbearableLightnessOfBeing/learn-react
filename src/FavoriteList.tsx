@@ -5,11 +5,11 @@ export const FavoriteList = () => {
     const [favoriteBreeds] = useContext(FavoriteBreedsContext);
 
     return (
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
             {favoriteBreeds.map((breed) => {
                 return (
                     <img
-                        className="w-[100px] h-[100px]"
+                        className="h-[100px] w-[100px]"
                         key={breed.id}
                         src={breed.imageSrc}
                         alt=""

@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { SearchParams } from "./SearchParams";
-import { Details } from "./Details";
+import DetailsErrorBoundary from "./Details";
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FavoriteBreedsContext } from "./FavoriteBreedsContext";
@@ -23,17 +22,20 @@ const App = () => {
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <FavoriteBreedsContext.Provider value={favoriteBreedsHook}>
-                    <div className="bg-pink-200 bg-opacity-30 min-h-[100vh]">
-                        <header className="flex justify-around items-center">
+                    <div className="min-h-[100vh] bg-pink-200 bg-opacity-30">
+                        <header className="flex items-center justify-around">
                             <FavoriteList />
                             <Link to="/">
-                                <h1 className="text-4xl w-fit mx-auto text-sky-400 py-10">
+                                <h1 className="mx-auto w-fit py-10 text-4xl text-sky-400">
                                     My app!
                                 </h1>
                             </Link>
                         </header>
                         <Routes>
-                            <Route path="/breeds/:id" element={<Details />} />
+                            <Route
+                                path="/breeds/:id"
+                                element={<DetailsErrorBoundary />}
+                            />
                             <Route path="/" element={<SearchParams />} />
                         </Routes>
                     </div>
@@ -44,5 +46,10 @@ const App = () => {
 };
 
 const container = document.getElementById("root");
+
+if (!container) {
+    throw new Error('give up, no container to render to');
+}
+
 const root = createRoot(container);
 root.render(<App />);

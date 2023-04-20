@@ -1,4 +1,7 @@
-export const fetchBreed = async ({ queryKey }) => {
+import { QueryFunction } from "@tanstack/react-query";
+import { Breed } from "./APIResponsesTypes";
+
+export const fetchBreed: QueryFunction<Breed, ["breed", string]> = async ({ queryKey }) => {
     const id = queryKey[1];
 
     const apiRes = await fetch(`https://api.thecatapi.com/v1/breeds/${id}`, {

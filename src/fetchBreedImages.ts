@@ -1,4 +1,7 @@
-export const fetchBreedImages = async ({ queryKey }) => {
+import { QueryFunction } from "@tanstack/react-query";
+import type { Image } from './APIResponsesTypes';
+
+export const fetchBreedImages: QueryFunction<Image[], ['breedImages', string]> = async ({ queryKey }) => {
     const id = queryKey[1];
 
     const apiRes = await fetch(

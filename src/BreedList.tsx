@@ -1,15 +1,18 @@
 import { useBreedList } from "./useBreedList";
 import { useQuery } from "@tanstack/react-query";
 import { Breed } from "./Breed";
+import type { BreedOnList } from "./APIResponsesTypes";
 
 export const BreedList = () => {
-    const result = useQuery(["breeds"], useBreedList);
+    const result = useQuery<BreedOnList[]>(["breeds"], useBreedList);
+
+    const breedList = result.data;
 
     const Render = () => {
         if (!result.isLoading) {
             return (
-                <div className="space-y-2 mt-4">
-                    {result.data?.map((breed) => {
+                <div className="mt-4 space-y-2">
+                    {breedList?.map((breed) => {
                         return (
                             <Breed
                                 key={breed.id}

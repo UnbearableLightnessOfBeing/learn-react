@@ -1,30 +1,37 @@
 import { useState } from "react";
 import { BreedList } from "./BreedList";
 
-const IMAGE_TYPES = ["breeds", "images", "categories"];
+type ImageType = "breeds" | "images" | "categories";
+const IMAGE_TYPES: ImageType[]  = ['breeds', 'images', 'categories'];
 
 export const SearchParams = () => {
     const [requestParams, setRequestParams] = useState({
         breedName: "",
         imageType: "breeds",
+    } as {
+        breedName: string,
+        imageType: ImageType
     });
 
-    const RenderContent = ({ imageType }) => {
+    const RenderContent = ({ imageType }: { imageType: ImageType}) => {
         if (imageType === "breeds") {
             return <BreedList />;
         } else return null;
     };
 
     return (
-        <div className="search-params w-fit mx-auto">
+        <div className="search-params mx-auto w-fit">
             <form
                 className="space-y-4"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    const formData = new FormData(e.target);
+                    const formData = new FormData(e.currentTarget);
                     setRequestParams({
-                        breedName: formData.get("breedName"),
-                        imageType: formData.get("imageType"),
+                        breedName: String(formData.get("breedName")),
+                        imageType: String(formData.get("imageType")),
+                    } as {
+                        breedName: string,
+                        imageType: ImageType
                     });
                 }}
             >
@@ -33,7 +40,7 @@ export const SearchParams = () => {
                         Search by breed
                     </label>
                     <input
-                        className="block border-2 border-indigo-400 py-1 px-2"
+                        className="block border-2 border-indigo-400 px-2 py-1"
                         id="name"
                         name="breedName"
                         type="text"
@@ -45,7 +52,7 @@ export const SearchParams = () => {
                         Choose type of content
                     </label>
                     <select
-                        className="block border-2 w-full border-indigo-400 py-1 px-2"
+                        className="block w-full border-2 border-indigo-400 px-2 py-1"
                         id="char"
                         name="imageType"
                         placeholder="Characteristic"
@@ -56,13 +63,13 @@ export const SearchParams = () => {
                     </select>
                 </div>
                 <button
-                    className="bg-indigo-200 py-2 px-4 rounded-md text-sky-700 
-                  hover:bg-indigo-100 transition-colors duration-200 block"
+                    className="block rounded-md bg-indigo-200 px-4 py-2 
+                  text-sky-700 transition-colors duration-200 hover:bg-indigo-100"
                 >
                     Submit
                 </button>
             </form>
-            <RenderContent imageType={requestParams.imageType} />
+            <RenderContent imageType={requestParams.imageType as ImageType} />
         </div>
     );
 };

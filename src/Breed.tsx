@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import type { BreedOnList } from "./APIResponsesTypes";
 
-export const Breed = (props) => {
+export const Breed = (props: BreedOnList) => {
     return (
         <div
             key={props.id}
-            className="w-[600px] bg-indigo-300 bg-opacity-20 border-2 border-indigo-400 p-4 rounded-lg space-y-2"
+            className="w-[600px] space-y-2 rounded-lg border-2 border-indigo-400 bg-indigo-300 bg-opacity-20 p-4"
         >
             <Link to={`/breeds/${props.id}`} className="block w-fit">
                 <h1 className="text-2xl text-blue-400 hover:text-yellow-600 hover:underline hover:underline-offset-4">
@@ -12,7 +13,7 @@ export const Breed = (props) => {
                 </h1>
             </Link>
             <img
-                className="w-[500px] h-full object-cover"
+                className="h-full w-[500px] object-cover"
                 src={props.image?.url}
                 alt="image"
             />
@@ -20,7 +21,7 @@ export const Breed = (props) => {
             <a
                 href={props.wikipedia_url}
                 target="_blank"
-                className="block underline text-purple-500"
+                className="block text-purple-500 underline"
             >
                 Read more about this breed on Wikipedia
             </a>

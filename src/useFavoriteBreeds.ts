@@ -1,9 +1,10 @@
 import { useState } from "react";
+import type { Breed } from "./APIResponsesTypes";
 
-export const useFavoriteBreeds = () => {
-    let [favoriteBreeds, setFavoriteBreeds] = useState([]);
+export const useFavoriteBreeds = (): [Breed[], (breed: Breed) => void, (breed: Breed) => void, (breddId: number) => boolean] => {
+    let [favoriteBreeds, setFavoriteBreeds] = useState<Breed[]>([]);
 
-    const addFavoriteBreed = (breed) => {
+    const addFavoriteBreed = (breed: Breed) => {
         if (!favoriteBreeds.find((item) => item.id === breed.id)) {
             const newArray = favoriteBreeds.map((item) => item);
             newArray.push(breed);
@@ -11,7 +12,7 @@ export const useFavoriteBreeds = () => {
         }
     };
 
-    const removeFavoriteBreed = (breed) => {
+    const removeFavoriteBreed = (breed: Breed) => {
         if (favoriteBreeds.find((item) => item.id === breed.id)) {
             const newArray = favoriteBreeds.filter(
                 (item) => item.id !== breed.id
@@ -20,7 +21,7 @@ export const useFavoriteBreeds = () => {
         }
     };
 
-    const isBreedFavorite = (breedId) => {
+    const isBreedFavorite = (breedId: number) => {
         return favoriteBreeds.find((item) => item.id === breedId)
             ? true
             : false;
