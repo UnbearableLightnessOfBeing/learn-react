@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-type Breed = {
+export type Breed = {
     id: number;
     imageSrc: string;
 };

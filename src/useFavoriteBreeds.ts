@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { Breed } from "./APIResponsesTypes";
+import type { Breed } from "./FavoriteBreedsContext";
 
-export const useFavoriteBreeds = (): [Breed[], (breed: Breed) => void, (breed: Breed) => void, (breddId: number) => boolean] => {
+export const useFavoriteBreeds = (): [Breed[], (breed: Breed) => void, (breed: Breed) => void, (breedId: number) => boolean] => {
     let [favoriteBreeds, setFavoriteBreeds] = useState<Breed[]>([]);
 
     const addFavoriteBreed = (breed: Breed) => {
